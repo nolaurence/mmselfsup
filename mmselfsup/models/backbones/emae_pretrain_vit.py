@@ -27,7 +27,7 @@ class EMAEViT(MAEViT):
 
         # append cls token
         cls_token = self.cls_token + self.pos_embed[:, :1, :]
-        cls_tokens = cls_token.expand(2 * B, -1, -1)
+        cls_tokens = cls_token.expand(B, -1, -1)
         x = torch.cat((cls_tokens, x), dim=1)
         x = self.drop_after_pos(x)
 
