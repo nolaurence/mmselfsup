@@ -50,6 +50,7 @@ class EMAEPretrainHead(BaseModule):
         losses = dict()
 
         # Mask image modeling loss
+        x = torch.cat(x)
         target = self.patchify(x)
         if self.norm_pix:
             mean = target.mean(dim=-1, keepdim=True)
@@ -63,6 +64,7 @@ class EMAEPretrainHead(BaseModule):
         losses['mim_loss'] = loss_mim
 
         # Contrastive loss
+        cls_token = torch.flatten(cls_token, 1)
         B = cls_token.shape[0]
         features = self.predictor(cls_token)
         features_q = features[:B // 2]
